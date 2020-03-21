@@ -1,4 +1,9 @@
-<app-interrogation [isFile]="false"
-                   [questions]="hangeul_letters"
-                   [quizzName]="quizzName">
-</app-interrogation>
+<ng-container [ngSwitch]="quizzName">
+    <app-interrogation *ngSwitchCase="'hangeul_as_alphabet'"
+                       [isFile]="false"
+                       [questions]="hangeul_letters"></app-interrogation>
+    <app-interrogation *ngSwitchCase="'russian_cyrillic'"
+                       [isFile]="false"
+                       [questions]="russian_cyrillic_letters"></app-interrogation>
+    <div *ngSwitchDefault> Unknown alphabet "{{ userChosenAlphabet }}", try amongst : TODO </div>
+</ng-container>

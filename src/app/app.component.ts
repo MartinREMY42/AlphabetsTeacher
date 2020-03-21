@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Q } from './interrogation/interrogation.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-root',
@@ -7,13 +8,14 @@ import { Q } from './interrogation/interrogation.component';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+    public userChosenAlphabet: string;
+
     public quizzName: string = "hangeul_as_alphabet/";
 
     public readonly hangeul_files: string[] = ["a.png", "ae.png", "b.png", "ch.png", "d.png", "eo.png", "eu.png", "g.png", "h.png", "i.png",
-                                                "j.png", "k.png", "m.png", "n.png", "o.png", "p.png", "r.png", "s.png", "t.png", "u.png",
-                                                "voyelle.png", "ya.png", "yeo.png", "yo.png", "yu.png"];
-
-    public readonly cyrillic_letters: Q[] = [
+        "j.png", "k.png", "m.png", "n.png", "o.png", "p.png", "r.png", "s.png", "t.png", "u.png",
+        "voyelle.png", "ya.png", "yeo.png", "yo.png", "yu.png"];
+    public readonly russian_cyrillic_letters: Q[] = [
         this.Q('а', ['a', 'A']),
         this.Q('б', ['b', 'B']),
         this.Q('в', ['v', 'V']),
@@ -48,7 +50,6 @@ export class AppComponent {
         this.Q('ю', ['iou', 'you']),
         this.Q('я', ['ia', 'ya']),
     ];
-
     public readonly hangeul_letters: Q[] = [
         this.Q('ㅂ', ['b', 'B']),
         this.Q('ㅈ', ['j', 'J']),
@@ -77,7 +78,28 @@ export class AppComponent {
         this.Q('ㅜ', ['u', 'U']),
         this.Q('ㅡ', ['eu', 'EU']),
     ];
+    public constructor(private route: ActivatedRoute) {
+        this.route.queryParams.subscribe(params => {
+            this.userChosenAlphabet = params.alphabet;
+            let result: string;
+            switch (this.userChosenAlphabet) {
+                case "hangeul_as_alphabet":
+                case "hangeul":
+                    result = "hangeul_as_alphabet";
+                    break;
+                case "cyrillic":
+                case "russian":
+                case "russian_cyrillic":
+                    result = "russian_cyrillic"
+                    break;
+                default:
+                    result = "hangeul";
+                    break;
+            }
+            this.quizzName = result;
+        });
+    }
     private Q(letter: string, answers: string[]): Q {
-        return {letter, answers};
+        return { letter, answers };
     }
 }

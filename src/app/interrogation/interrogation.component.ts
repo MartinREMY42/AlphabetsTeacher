@@ -44,7 +44,7 @@ export class InterrogationComponent implements OnInit {
 
     public finished: boolean = false;
 
-    ngOnInit() {
+    public ngOnInit() {
         if (this.isFile === true) {
             if (this.urls == null) throw new Error("If isFile=true, you must provide urls");
             this.remainingQuestions = this.mapLettersUrlToDico(this.urls);
